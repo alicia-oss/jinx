@@ -3,7 +3,7 @@ package jinx_imp
 import (
 	"fmt"
 	"jinx/jinx_int"
-	"jinx/jinx_pkg/log"
+	"jinx/pkg/log"
 )
 
 type job struct {

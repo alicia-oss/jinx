@@ -3,7 +3,7 @@ package test
 import (
 	"bytes"
 	"fmt"
-	"jinx/jinx_pkg/coder"
+	"jinx/pkg/coder"
 	"testing"
 )
 

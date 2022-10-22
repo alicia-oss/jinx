@@ -3,7 +3,7 @@ package test
 import (
 	"fmt"
 	"jinx/jinx_imp"
-	"jinx/jinx_pkg/coder"
+	"jinx/pkg/coder"
 	"net"
 	"testing"
 	"time"

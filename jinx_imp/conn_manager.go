@@ -3,7 +3,7 @@ package jinx_imp
 import (
 	"errors"
 	"jinx/jinx_int"
-	"jinx/jinx_pkg/log"
+	"jinx/pkg/log"
 	"sync"
 )
 

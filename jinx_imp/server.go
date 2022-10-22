@@ -3,8 +3,8 @@ package jinx_imp
 import (
 	"fmt"
 	"jinx/jinx_int"
-	"jinx/jinx_pkg/coder"
-	"jinx/jinx_pkg/log"
+	"jinx/pkg/coder"
+	"jinx/pkg/log"
 	"net"
 )
 

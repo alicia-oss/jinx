@@ -4,7 +4,7 @@ import (
 	"errors"
 	"fmt"
 	"jinx/jinx_int"
-	"jinx/jinx_pkg/log"
+	"jinx/pkg/log"
 )
 
 func NewRouter() jinx_int.IRouter {
