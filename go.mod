@@ -1,4 +1,5 @@
-module jinx
+module github.com/alicia-oss/jinx
+
 
 go 1.18
 
