@@ -2,7 +2,7 @@ package test
 
 import (
 	"fmt"
-	client_imp "jinx/client/imp"
+	client_imp "github.com/alicia-oss/jinx/client/imp"
 	"testing"
 	"time"
 )

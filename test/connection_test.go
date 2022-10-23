@@ -2,8 +2,8 @@ package test
 
 import (
 	"fmt"
-	"jinx/jinx_imp"
-	"jinx/pkg/coder"
+	"github.com/alicia-oss/jinx/jinx_imp"
+	"github.com/alicia-oss/jinx/pkg/coder"
 	"net"
 	"testing"
 	"time"

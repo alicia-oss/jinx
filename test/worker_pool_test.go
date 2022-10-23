@@ -1,7 +1,7 @@
 package test
 
 import (
-	"jinx/jinx_imp"
+	"github.com/alicia-oss/jinx/jinx_imp"
 	"testing"
 	"time"
 )

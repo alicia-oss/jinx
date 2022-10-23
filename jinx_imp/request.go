@@ -1,6 +1,6 @@
 package jinx_imp
 
-import "jinx/jinx_int"
+import "github.com/alicia-oss/jinx/jinx_int"
 
 func NewRequest(msg jinx_int.IMessage, conn jinx_int.IConnection) jinx_int.IRequest {
 	return &request{

@@ -2,9 +2,9 @@ package jinx_imp
 
 import (
 	"fmt"
-	"jinx/jinx_int"
-	"jinx/pkg/coder"
-	"jinx/pkg/log"
+	"github.com/alicia-oss/jinx/jinx_int"
+	"github.com/alicia-oss/jinx/pkg/coder"
+	"github.com/alicia-oss/jinx/pkg/log"
 	"net"
 )
 

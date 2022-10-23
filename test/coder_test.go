@@ -3,7 +3,7 @@ package test
 import (
 	"bytes"
 	"fmt"
-	"jinx/pkg/coder"
+	"github.com/alicia-oss/jinx/pkg/coder"
 	"testing"
 )
 

@@ -2,8 +2,8 @@ package jinx_imp
 
 import (
 	"fmt"
-	"jinx/jinx_int"
-	"jinx/pkg/log"
+	"github.com/alicia-oss/jinx/jinx_int"
+	"github.com/alicia-oss/jinx/pkg/log"
 )
 
 type BaseMsgHandler struct{}

@@ -4,8 +4,8 @@ import (
 	"bytes"
 	"encoding/binary"
 	"errors"
+	"github.com/alicia-oss/jinx/jinx_int"
 	"io"
-	"jinx/jinx_int"
 )
 
 const headLen = 4

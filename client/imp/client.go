@@ -2,10 +2,10 @@ package client_imp
 
 import (
 	"fmt"
-	client_int "jinx/client/int"
-	"jinx/jinx_int"
-	"jinx/pkg/coder"
-	"jinx/pkg/log"
+	client_int "github.com/alicia-oss/jinx/client/int"
+	"github.com/alicia-oss/jinx/jinx_int"
+	"github.com/alicia-oss/jinx/pkg/coder"
+	"github.com/alicia-oss/jinx/pkg/log"
 	"net"
 )
 

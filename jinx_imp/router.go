@@ -3,8 +3,8 @@ package jinx_imp
 import (
 	"errors"
 	"fmt"
-	"jinx/jinx_int"
-	"jinx/pkg/log"
+	"github.com/alicia-oss/jinx/jinx_int"
+	"github.com/alicia-oss/jinx/pkg/log"
 )
 
 func NewRouter() jinx_int.IRouter {
