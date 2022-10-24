@@ -17,7 +17,7 @@ func TestConnection(t *testing.T) {
 			fmt.Println("AddRouter err:", err.Error())
 			return
 		}
-		server.Start()
+		go server.Start()
 		d, err := net.Dial("tcp", "127.0.0.1:9990")
 		if err != nil {
 			fmt.Println("dial err:", err.Error())

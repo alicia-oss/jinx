@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"github.com/alicia-oss/jinx/jinx_imp"
 	"testing"
-	"time"
 )
 
 func TestServer(t *testing.T) {
@@ -17,7 +16,6 @@ func TestServer(t *testing.T) {
 		}
 		server.Start()
 
-		time.Sleep(5 * time.Minute)
 	})
 
 }

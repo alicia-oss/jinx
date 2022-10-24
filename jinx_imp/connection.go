@@ -5,19 +5,22 @@ import (
 	"github.com/alicia-oss/jinx/jinx_int"
 	"github.com/alicia-oss/jinx/pkg/log"
 	"net"
+	"sync"
 )
 
-func NewConnection(conn net.Conn, connId uint32, coder jinx_int.ICoder, router jinx_int.IRouter, pool jinx_int.IWorkerPool, manager jinx_int.IConnManager) jinx_int.IConnection {
+func NewConnection(conn net.Conn, connId uint32, coder jinx_int.ICoder, router jinx_int.IRouter, pool jinx_int.IWorkerPool, manager jinx_int.IConnManager, onClose jinx_int.IOnCloseHandle) jinx_int.IConnection {
 	c := &connection{
-		conn:        conn,
-		connID:      connId,
-		isClosed:    false,
-		exitChan:    make(chan struct{}),
-		coder:       coder,
-		router:      router,
-		workerPool:  pool,
-		connManager: manager,
-		writeChan:   make(chan []byte, 3),
+		conn:           conn,
+		connID:         connId,
+		isClosed:       false,
+		exitChan:       make(chan struct{}),
+		coder:          coder,
+		router:         router,
+		workerPool:     pool,
+		connManager:    manager,
+		writeChan:      make(chan []byte, 3),
+		attr:           &sync.Map{},
+		onCloseHandler: onClose,
 	}
 	if err := c.connManager.Add(c); err != nil {
 		return nil
@@ -44,6 +47,10 @@ type connection struct {
 	workerPool jinx_int.IWorkerPool
 	//连接管理器
 	connManager jinx_int.IConnManager
+	// 业务数据存储
+	attr *sync.Map
+	//
+	onCloseHandler jinx_int.IOnCloseHandle
 }
 
 // Start 开启读协程 负责读取数据转换为IRequest
@@ -60,13 +67,14 @@ func (c *connection) StartReader() {
 			select {
 			case <-c.exitChan:
 				log.Info(fmt.Sprintf("conn reader closed..., conn_id:%v, remote_addr:%v", c.connID, c.GetRemoteAddr()), ModuleNameConn)
+				c.onCloseHandler.Handle(c)
 				return
 			default:
 				message, err := c.coder.Decode(c.conn)
 				if err != nil {
 					log.Error(fmt.Sprintf("conn decode error, conn_id:%v, err:%v", c.connID, err), ModuleNameConn)
 					c.Stop()
-					return
+					break
 				}
 				req := NewRequest(message, c)
 				handler, ok := c.router.Route(req)
@@ -133,4 +141,16 @@ func (c *connection) StartWriter() {
 			}
 		}
 	}()
+}
+
+func (c *connection) SetAttr(key string, value interface{}) {
+	c.attr.Store(key, value)
+}
+
+func (c *connection) GetAttr(key string) (interface{}, bool) {
+	return c.attr.Load(key)
+}
+
+func (c *connection) DeleteAttr(key string) {
+	c.attr.Delete(key)
 }

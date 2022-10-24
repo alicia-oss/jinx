@@ -13,10 +13,14 @@ func (b *BaseMsgHandler) PreHandle(req jinx_int.IRequest) {
 }
 
 func (b *BaseMsgHandler) Handle(req jinx_int.IRequest) {
-	log.Info("Handle...", "handler")
 	req.GetConnection().Send(req.GetData(), req.GetMsgId())
 }
 
 func (b *BaseMsgHandler) PostHandle(req jinx_int.IRequest) {
-	log.Info("PostHandle...", "handler")
+}
+
+type BaseOnCloseHandler struct{}
+
+func (o *BaseOnCloseHandler) Handle(conn jinx_int.IConnection) {
+	log.Info("BaseOnCloseHandler", "base_handler")
 }
