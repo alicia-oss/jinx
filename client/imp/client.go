@@ -7,6 +7,7 @@ import (
 	"github.com/alicia-oss/jinx/pkg/coder"
 	"github.com/alicia-oss/jinx/pkg/log"
 	"net"
+	"sync"
 )
 
 func NewClient(proto, ip string, port int) (client_int.IClient, error) {
@@ -40,6 +41,7 @@ type client struct {
 	writeChan  chan []byte
 	coder      jinx_int.ICoder
 	router     client_int.IRouter
+	attr       *sync.Map
 }
 
 func (c *client) GetTCPConnection() net.Conn {
@@ -128,4 +130,16 @@ func (c *client) AddRoute(msg uint32, handle client_int.IMsgHandle) error {
 		return err
 	}
 	return nil
+}
+
+func (c *client) SetAttr(key string, value interface{}) {
+	c.attr.Store(key, value)
+}
+
+func (c *client) GetAttr(key string) (interface{}, bool) {
+	return c.attr.Load(key)
+}
+
+func (c *client) DeleteAttr(key string) {
+	c.attr.Delete(key)
 }
