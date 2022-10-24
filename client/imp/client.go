@@ -27,6 +27,7 @@ func NewClient(proto, ip string, port int) (client_int.IClient, error) {
 		writeChan:  make(chan []byte, 3),
 		coder:      &coder.TlvCoder{MaxPacketSize: 512},
 		router:     NewRouter(),
+		attr:       &sync.Map{},
 	}, nil
 }
 
