@@ -1,6 +1,7 @@
 package jinx_imp
 
 import (
+	"errors"
 	"fmt"
 	"github.com/alicia-oss/jinx/jinx_int"
 	"github.com/alicia-oss/jinx/pkg/log"
@@ -116,6 +117,11 @@ func (c *connection) GetRemoteAddr() net.Addr {
 }
 
 func (c *connection) Send(data []byte, msgId uint32) error {
+	if c.isClosed {
+		err := errors.New("conn has closed")
+		log.Error(fmt.Sprintf("conn send err, err:%v", err), ModuleNameConn)
+		return err
+	}
 	encode, err := c.coder.Encode(data, msgId)
 	if err != nil {
 		log.Error(fmt.Sprintf("conn send encode err, err:%v", err), ModuleNameConn)
