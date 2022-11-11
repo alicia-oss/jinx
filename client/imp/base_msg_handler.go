@@ -6,11 +6,11 @@ import (
 
 type BaseMsgHandler struct{}
 
-func (b *BaseMsgHandler) PreHandle(req client_int.IRequest) {
+func (b *BaseMsgHandler) PreHandle(req client_int.ICtx) {
 }
 
-func (b *BaseMsgHandler) Handle(req client_int.IRequest) {
+func (b *BaseMsgHandler) Handle(req client_int.ICtx) {
 }
 
-func (b *BaseMsgHandler) PostHandle(req client_int.IRequest) {
+func (b *BaseMsgHandler) PostHandle(req client_int.ICtx) {
 }

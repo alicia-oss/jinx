@@ -15,7 +15,7 @@ type router struct {
 	handlerMap map[uint32]client_int.IMsgHandle
 }
 
-func (r *router) Route(request client_int.IRequest) (client_int.IMsgHandle, bool) {
+func (r *router) Route(request client_int.ICtx) (client_int.IMsgHandle, bool) {
 
 	handle, ok := r.handlerMap[request.GetMsgId()]
 	return handle, ok
