@@ -24,3 +24,20 @@ type BaseOnCloseHandler struct{}
 func (o *BaseOnCloseHandler) Handle(conn jinx_int.IConnection) {
 	log.Info("BaseOnCloseHandler", "base_handler")
 }
+
+type PingHandler struct {
+	jinx_int.IPingHook
+}
+
+func (o *PingHandler) Handle(req jinx_int.IRequest) {
+	log.Info("PingHandler", "ping_handler")
+	req.GetConnection().Ping()
+}
+
+type DefaultPingHook struct{}
+
+func (d DefaultPingHook) PreHandle(req jinx_int.IRequest) {
+}
+
+func (d DefaultPingHook) PostHandle(req jinx_int.IRequest) {
+}

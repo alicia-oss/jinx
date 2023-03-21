@@ -20,6 +20,7 @@ func NewServer(name, proto, ip string, port int) jinx_int.IServer {
 		connManager:    NewConnManager(),
 		coder:          &coder.TlvCoder{MaxPacketSize: 256},
 		onCloseHandler: &BaseOnCloseHandler{},
+		pingHandler:    &PingHandler{DefaultPingHook{}},
 	}
 }
 
@@ -43,6 +44,7 @@ type server struct {
 	//coder 传给connction
 	coder          jinx_int.ICoder
 	onCloseHandler jinx_int.IOnCloseHandle
+	pingHandler    jinx_int.IMsgHandle
 }
 
 func (s *server) Start() error {
@@ -81,4 +83,9 @@ func (s *server) AddRouter(msgId uint32, router jinx_int.IMsgHandle) error {
 
 func (s *server) SetOnCloseHandler(handle jinx_int.IOnCloseHandle) {
 	s.onCloseHandler = handle
+}
+
+func (s *server) SetPingHook(hook jinx_int.IPingHook) {
+	s.pingHandler = &PingHandler{hook}
+	_ = s.AddRouter(1, s.pingHandler)
 }

@@ -15,6 +15,8 @@ type IConnection interface {
 	GetRemoteAddr() net.Addr
 	// Send 发送数据，将数据发送给client
 	Send(data []byte, msgId uint32) error
+	// Ping 心跳维持连接
+	Ping()
 	// SetAttr 给业务系统提供扩展属性
 	SetAttr(key string, value interface{})
 	GetAttr(key string) (interface{}, bool)

@@ -8,6 +8,7 @@ import (
 	"github.com/alicia-oss/jinx/pkg/log"
 	"net"
 	"sync"
+	"time"
 )
 
 func NewClient(proto, ip string, port int) (client_int.IClient, error) {
@@ -28,6 +29,7 @@ func NewClient(proto, ip string, port int) (client_int.IClient, error) {
 		coder:      &coder.TlvCoder{MaxPacketSize: 512},
 		router:     NewRouter(),
 		attr:       &sync.Map{},
+		ticker:     time.Tick(3 * time.Second),
 	}, nil
 }
 
@@ -43,6 +45,7 @@ type client struct {
 	coder      jinx_int.ICoder
 	router     client_int.IRouter
 	attr       *sync.Map
+	ticker     <-chan time.Time
 }
 
 func (c *client) GetTCPConnection() net.Conn {
@@ -107,6 +110,14 @@ func (c *client) StartWriter() {
 			case <-c.closeChan:
 				log.Info(fmt.Sprintf("client reader closed..., remote_addr:%v", c.GetRemoteAddr()), ModuleNameClient)
 				return
+			case <-c.ticker:
+				log.Info(fmt.Sprintf("ping, remote_addr:%v", c.GetRemoteAddr()), ModuleNameClient)
+				err := c.Send(nil, 1)
+				if err != nil {
+					log.Error(fmt.Sprintf("write err, err:%v", err), ModuleNameClient)
+					c.Close()
+					return
+				}
 			case data := <-c.writeChan:
 				if _, err := c.conn.Write(data); err != nil {
 					log.Error(fmt.Sprintf("write err, err:%v", err), ModuleNameClient)

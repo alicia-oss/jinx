@@ -7,6 +7,7 @@ import (
 	"github.com/alicia-oss/jinx/pkg/log"
 	"net"
 	"sync"
+	"time"
 )
 
 func NewConnection(conn net.Conn, connId uint32, coder jinx_int.ICoder, router jinx_int.IRouter, pool jinx_int.IWorkerPool, manager jinx_int.IConnManager, onClose jinx_int.IOnCloseHandle) jinx_int.IConnection {
@@ -23,6 +24,10 @@ func NewConnection(conn net.Conn, connId uint32, coder jinx_int.ICoder, router j
 		attr:           &sync.Map{},
 		onCloseHandler: onClose,
 	}
+	c.deadline = time.AfterFunc(5*time.Second, func() {
+		log.Info(fmt.Sprintf("deadline come conn reader closed..., conn_id:%v, remote_addr:%v", c.connID, c.GetRemoteAddr()), ModuleNameConn)
+		c.Stop()
+	})
 	if err := c.connManager.Add(c); err != nil {
 		return nil
 	}
@@ -52,6 +57,12 @@ type connection struct {
 	attr *sync.Map
 	//
 	onCloseHandler jinx_int.IOnCloseHandle
+	//
+	deadline *time.Timer
+}
+
+func (c *connection) Ping() {
+	c.deadline.Reset(5 * time.Second)
 }
 
 // Start 开启读协程 负责读取数据转换为IRequest

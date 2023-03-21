@@ -9,3 +9,8 @@ type IMsgHandle interface {
 type IOnCloseHandle interface {
 	Handle(conn IConnection)
 }
+
+type IPingHook interface {
+	PreHandle(req IRequest)
+	PostHandle(req IRequest)
+}
